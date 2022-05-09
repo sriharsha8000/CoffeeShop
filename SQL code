@@ -1,0 +1,274 @@
+
+CREATE TABLE PRODUCT_TYPE(
+    PRODUCT_TYPE_ID        INTEGER    NOT NULL,
+    DESCRIPTION        VARCHAR(100)    NOT NULL,
+    TEMPERATURE        VARCHER(50)    NOT NULL,
+    PRIMARY KEY(PRODUCT_TYPE_ID)
+);
+
+CREATE TABLE    INVENTORY(
+    INVENTORY_ID        INTEGER    NOT NULL,
+    QUANTITY        INTEGER    NOT NULL,
+    PRIMARY KEY(INVENTORY_ID)
+);
+
+CREATE TABLE    CUSTOMER(
+    CUSTOMER_ID        INTEGER    NOT NULL,
+    FULLNAME        VARCHAR(50),
+    PHONE_NUMBER        VARCHAR(50),
+    MAIL_ADDRESS        VAECHAR(50),
+    PRIMARY KEY(CUSTOMER_ID)
+);
+
+CREATE    TABLE    PAYMENT(
+    PAYMENT_ID        INTEGER    NOT NULL,
+    PAYMENT_METHOD    VARCHAR    NOT NULL,
+    PRIMARY KEY(PAYMENT_ID)
+);
+
+CREATE TABLE PRODUCT(
+    PRODUCT_ID        INTEGER    NOT NULL,
+    PRODUCT_TYPE_ID        INTEGER    NOT NULL,
+    INVENTORY_ID        INTEGER    NOT NULL,
+    NAME    VARCHAR(100)        NOT NULL,
+    PRICE    DECMINAL        NOT NULL,
+    PRIMARY KEY(PRODUCT_ID),
+    FOREIGN KEY(PRODUCT_TYPE_ID) REFERENCES PRODUCT_TYPE(PRODUCT_TYPE_ID),
+    FOREIGN KEY(INVENTORY_ID) REFERENCES INVENTORY(INVENTORY_ID)
+);
+
+CREATE TABLE ORDERS(
+    ORDER_ID        INTEGER    NOT NULL,
+    CUSTOMER_ID    INTEGER NOT NULL,
+    DATE     DATE    NOT NULL,
+    TIME     TIME      NOT NULL,
+    PRICE_TOTAL        DICMINAL    NOT NULL,
+    PAYMENT_ID        INTEGER    NOT NULL,
+    PRIMARY KEY(ORDER_ID),
+    FOREIGN KEY(CUSTOMER_ID)    REFERENCES CUSTOMER(CUSTOMER_ID),
+    FOREIGN KEY(PAYMENT_ID) REFERENCES PAYMENT(PAYMENT_ID)
+);
+
+CREATE TABLE ORDERED_PRODUCT(
+    ORDERED_PRODUCT_ID        INTEGER    NOT NULL,
+    PRODUCT_ID        INTEGER    NOT NULL,
+    ORDER_ID        INTEGER    NOT NULL,
+    QUANTITY    INTEGER    NOT NULL,
+    FOREIGN KEY(PRODUCT_ID)    REFERENCES PRODUCT(PRODUCT_ID),
+    FOREIGN KEY(ORDER_ID)    REFERENCES ORDERS(ORDER_ID)
+);
+
+INSERT	INTO		PRODUCT_TYPE(PRODUCT_TYPE_ID, DESCRIPTION, TEMPERATURE)
+	VALUES	(1, 'COFFEE', 'COLD'),
+						(2, 'COFFEE', 'HOT'),
+						(3, 'FOODS', 'HOT'),
+						(4, 'FOODS', 'BAKE'),
+						(5, 'JUICES', 'COLD');
+
+INSERT	INTO		INVENTORY(INVENTORY_ID, QUANTITY)
+	VALUES	(1001, 5),
+						(1002, 50),
+						(1003, 100),
+						(1004, 500),
+						(1005, 1000),
+						(1006, 5000),
+						(1007, 10000);
+
+INSERT	INTO 	PRODUCT(PRODUCT_ID,  PRODUCT_TYPE_ID, INVENTORY_ID, NAME, PRICE)
+	VALUES	(101, 2, 1006, 'CAFA LATRE', 3.0),
+						(102, 2,1005, 'CAPPUCCINO', 3.0),
+						(103, 2, 1007, 'AMERICANO', 5.0),
+						(104, 2, 1002, 'ESPRESSO', 6.0),
+						(105, 1, 1004, 'ICE CAFE LATTE', 3.0),
+						(106, 1, 1005, 'ICE COFFEE', 3.0),
+						(107,1, 1003, 'ICE CAPPUCCINO', 5.0),
+						(108, 3, 1004, 'EGG BITES', 4.0),
+						(109, 3, 1003, 'OMELETTE', 8.0),
+						(110, 4, 1002, 'CROISSANT', 10.0),
+						(111, 4, 1002, 'MUFFIN', 7.0),
+						(112, 4, 1003, 'BAGELS', 5.0),
+						(113, 5, 1003, 'ORANGE JUICE', 4.0),
+						(114, 5, 1001, 'KALE SMOOTHIE', 10.0),
+						(115, 5, 1003, 'STRABERRY SMOOTHIE', 8.0);
+
+INSERT	INTO		PAYMENT(PAYMENT_ID, PAYMENT_METHOD)
+	VALUES (1, 'CASH'),
+					  (2, 'CREDIT CARD');
+
+INSERT	INTO CUSTOMER(CUSTOMER_ID, FULLNAME, PHONE_NUMBER, MAIL_ADDRESS)
+	VALUES (11, 'Tiago', '202-918-2132', 'alicamgipp@ndxmails.com'),
+					  (12,  'Nico', '305-672-8917', 'billygetty@nolteot.com'),
+					  (13, 'Asmaa', '505-644-2891', 'exumenovich@cardkurd.com'),
+					  (14, 'Raheel', ' 425-731-3464', 'xarionde@redaksikabar.com'),
+					  (15,'Aniyah',  '202-918-2132', 'lajiha9120@chokxus.com'),
+					  (16, 'Lacie', ' 203-905-7451', 'jjazz@btcmod.com'),
+					  (17, 'Johnathon', '224-859-5066', 'kameshamellis@gmailvn.net'),
+					  (18, 'Johnnie', '213-652-9830', 'dinacskeffrey@dinarsanjaya.com'),
+					  (19, 'Giles', '582-558-6759', 'ganbing@tunrahn.com'),
+					  (20, 'Dana', '217-455-9943', 'tracyleg@ecallen.com');
+
+
+INSERT	INTO ORDERS(ORDER_ID, CUSTOMER_ID, DATE, TIME, PRICE_TOTAL, PAYMENT_ID)
+	VALUES (10001, 12, '2022-4-25', '14:00:00', 6.0, 1),
+					  (10002, 14, '2022-4-25', '14:30:00', 3.0, 1),
+					  (10003, 13, '2022-4-25', '16:00:00', 29.0, 2),
+					  (10004, 11, '2022-4-21', '18:00:00', 5.0, 2),
+					  (10005, 11, '2022-4-25', '18:10:00', 16.0, 2),
+					  (10006, 13, '2022-4-25', '18:13:00', 6.0,2),
+					  (10007, 13, '2022-4-25', '18:20:00', 10.0, 1),
+					  (10008, 14, '2022-4-25', '18:30:00', 22.0, 2),
+					  (10009,  16, '2022-4-25', '18:45:00', 28.0, 2),
+					  (10010, 16, '2022-4-25', '18:50:00', 20.0, 1),
+					  (10011, 15, '2022-4-26', '19:10:00', 15.0, 1),
+					  (10012, 17, '2022-4-24', '19:20:00', 26.0, 1),
+					  (10013, 18, '2022-4-25', '19:30:00', 8.0, 2),
+					  (10014, 18, '2022-4-25', '19:40:00', 9.0, 2),
+					  (10015, 20, '2022-4-25', '19:50:00', 10.0, 2),
+					  (10016, 20, '2022-4-25', '20:10:00', 22.0, 1),
+					  (10017, 20, '2022-4-25', '20:30:00', 4.0, 1),
+					  (10018, 19, '2022-4-25', '20:45:00', 12.0, 2),
+					  (10019, 19, '2022-4-25', '21:10:00', 28.0, 2),
+					  (10020, 11, '2022-4-15', '21:30:00', 33.0, 1);
+
+INSERT	INTO  ORDERED_PRODUCT(ORDERED_PRODUCT_ID, PRODUCT_ID, ORDER_ID, QUANTITY)
+	VALUES  (01, 106, 10001, 2),
+					   (02, 102, 10002, 1),
+					   (03, 109, 10003, 3),
+					   (04, 111, 10003, 1),
+					   (05, 111, 10004, 1),
+					   (06, 112, 10005, 4),
+					   (07, 101, 10006, 2),
+					   (08, 112, 10007, 3),
+					   (09, 115, 10008, 1),
+					   (010, 101, 10008, 2),
+					   (011, 115, 10008, 1),
+					   (012, 115, 10009, 4),
+					   (013, 110, 10010, 2),
+					   (014, 101, 10011, 5),
+					   (015, 104, 10012, 1),
+					   (016, 114, 10012, 2),
+					   (017, 118, 10013, 2),
+					   (018, 106, 10014, 3),
+					   (019, 103, 10015, 2),
+					   (020, 109, 10016, 3),
+					   (021, 101, 10016, 2),
+					   (022, 113, 10017, 1),
+					   (023, 101, 10018, 4),
+					   (024, 112, 10019,2),
+					   (025, 104, 10019, 1),
+					   (025, 102, 10019, 2),
+					   (026, 106, 10019, 1),
+					   (027, 102, 10020, 1),
+					   (028, 115, 10020, 1),
+					   (029, 110, 10020, 1),
+					   (030, 107, 10020, 4);
+
+CREATE VIEW [CAPPUCCINO customers] AS
+    SELECT * FROM ORDERED_PRODUCT
+    WHERE PRODUCT_ID==102;
+
+SELECT *FROM [CAPPUCCINO customers];
+
+
+-- ALl the customers who have ordered Cappuccino ordered by date
+SELECT QUANTITY,NAME,DATE,FULLNAME
+FROM "CAPPUCCINO customers"
+JOIN main.PRODUCT P on "CAPPUCCINO customers".PRODUCT_ID = P.PRODUCT_ID
+JOIN main.ORDERS O on "CAPPUCCINO customers".ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on C.CUSTOMER_ID = O.CUSTOMER_ID
+ORDER BY DATE;
+
+--Creating view for customers who have ordered Omelette
+CREATE VIEW [OMELETTE customers] AS
+    select * FROM ORDERED_PRODUCT
+    WHERE PRODUCT_ID==109;
+
+
+SELECT * FROM "OMELETTE customers";
+
+-- ALl the customers who have ordered Omelette ordered by date
+SELECT QUANTITY,NAME,DATE,FULLNAME
+FROM "OMELETTE customers"
+JOIN main.PRODUCT P on "OMELETTE customers".PRODUCT_ID = P.PRODUCT_ID
+JOIN main.ORDERS O on "OMELETTE customers".ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on C.CUSTOMER_ID = O.CUSTOMER_ID
+ORDER BY DATE;
+
+
+
+--Creating view for customers who have ordered BAGELS
+CREATE VIEW[BAGELS customers] AS
+    SELECT * FROM ORDERED_PRODUCT
+    WHERE PRODUCT_ID==112;
+
+
+--Uses the view and shows all the customers who have ordered BAGELS
+SELECT *FROM [BAGELS customers];
+
+-- ALl the customers who have ordered BAGELS ordered by date
+SELECT QUANTITY,NAME,DATE,FULLNAME
+FROM "BAGELS customers"
+JOIN main.PRODUCT P on "BAGELS customers".PRODUCT_ID = P.PRODUCT_ID
+JOIN main.ORDERS O on "BAGELS customers".ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on C.CUSTOMER_ID = O.CUSTOMER_ID
+ORDER BY DATE;
+
+
+--Shows all orders for the cashier interface
+SELECT QUANTITY,NAME,DESCRIPTION,DATE,FULLNAME,PAYMENT_METHOD
+FROM ORDERED_PRODUCT
+JOIN main.PRODUCT P on ORDERED_PRODUCT.PRODUCT_ID = P.PRODUCT_ID
+JOIN main.PRODUCT_TYPE PT on P.PRODUCT_TYPE_ID = PT.PRODUCT_TYPE_ID
+JOIN ORDERS O on ORDERED_PRODUCT.ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on O.CUSTOMER_ID = C.CUSTOMER_ID
+JOIN main.PAYMENT P2 on O.PAYMENT_ID = P2.PAYMENT_ID
+ORDER BY DATE;
+
+
+
+--shows all the products available
+SELECT * FROM PRODUCT;
+
+--shows all the product types
+SELECT * from PRODUCT_TYPE;
+
+--shows all the customers of the shop
+SELECT * from CUSTOMER;
+
+SELECT * FROM ORDERED_PRODUCT;
+
+SELECT * FROM ORDERS;
+
+--Selecting orders from a specific date
+SELECT * from ORDERS WHERE DATE='2022-4-25';
+
+--dates and the name of the customer
+SELECT DATE,FULLNAME
+From ORDERS
+LEFT JOIN main.CUSTOMER C on ORDERS.CUSTOMER_ID = C.CUSTOMER_ID;
+
+
+--Selecting a specific items ordered on that day
+SELECT *FROM ORDERED_PRODUCT WHERE PRODUCT_ID=106;
+
+--ALL the orders which were paid by cash
+SELECT QUANTITY,NAME,DATE,FULLNAME,PAYMENT_METHOD
+FROM ORDERED_PRODUCT
+JOIN main.PRODUCT P on ORDERED_PRODUCT.PRODUCT_ID = P.PRODUCT_ID
+JOIN ORDERS O on ORDERED_PRODUCT.ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on O.CUSTOMER_ID = C.CUSTOMER_ID
+JOIN main.PAYMENT P2 on O.PAYMENT_ID = P2.PAYMENT_ID
+WHERE PAYMENT_METHOD='CASH'
+ORDER BY DATE;
+
+
+--All the orders which are coffee
+SELECT QUANTITY,NAME,DATE,FULLNAME,PAYMENT_METHOD,DESCRIPTION,TEMPERATURE
+FROM ORDERED_PRODUCT
+JOIN main.PRODUCT P on ORDERED_PRODUCT.PRODUCT_ID = P.PRODUCT_ID
+JOIN ORDERS O on ORDERED_PRODUCT.ORDER_ID = O.ORDER_ID
+JOIN CUSTOMER C on O.CUSTOMER_ID = C.CUSTOMER_ID
+JOIN main.PAYMENT P2 on O.PAYMENT_ID = P2.PAYMENT_ID
+JOIN main.PRODUCT_TYPE PT on P.PRODUCT_TYPE_ID = PT.PRODUCT_TYPE_ID
+WHERE DESCRIPTION='COFFEE' AND TEMPERATURE='HOT'
+ORDER BY DATE;
